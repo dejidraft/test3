@@ -1,87 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Topics | Method-of-Mind</title>
-  <link rel="stylesheet" href="styles.css"/>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Topics - Method of Mind - Psychology Learning Platform</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1B365D", // Academic Navy Blue
+                        "primary-light": "#2C4A7C", // Lighter Navy for hover
+                        "background-light": "#FDFBF7", // Cream / Bone White
+                        "background-dark": "#0F172A", // Slate 900
+                        secondary: {
+                            lavender: "#E0D8EA",
+                            coral: "#F2D7D5",
+                        }
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        serif: ["Lora", "serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'soft-hover': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
+                    }
+                },
+            },
+        };
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-sans min-h-screen flex flex-col transition-colors duration-300">
 
-<body>
- <header class="site-header">
-  <div class="nav-inner">
-    <a class="brand" href="index.html">
-      <img class="brand-logo" src="logo.svg" alt="Method of Mind logo">
-      <span class="brand-text">Method-of-Mind</span>
-    </a>
+    <!-- Header -->
+    <header class="w-full border-b border-slate-200/60 dark:border-slate-800/60 sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-sm">
+        <nav class="max-w-[1000px] mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Brand -->
+            <a class="flex items-center gap-2 group" href="index.html">
+                <img class="brand-logo h-8 w-8 group-hover:scale-110 transition-transform duration-300" src="logo.svg" alt="Method of Mind logo">
+                <span class="text-xl font-bold tracking-tight text-primary dark:text-blue-100 font-serif">Method of Mind</span>
+            </a>
 
-    <nav class="nav" aria-label="Primary">
-      <a href="topics.html">Topics</a>
-      <a href="about.html">About</a>
-      <a class="pill" href="request-topic.html">Request Topic</a>
-      <a href="account.html">Account</a>
-    </nav>
-  </div>
-</header>
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a class="text-sm font-medium text-primary dark:text-blue-300 hover:text-primary dark:hover:text-blue-200 transition-colors" href="topics.html">Topics</a>
+                <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-blue-200 transition-colors" href="about.html">About</a>
+                <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-blue-200 transition-colors" href="#">Resources</a>
+            </div>
 
+            <!-- Desktop Actions -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-blue-200 transition-colors" href="account.html">
+                    <span class="material-icons-outlined text-[20px]">account_circle</span>
+                    <span>Account</span>
+                </a>
+                <a class="bg-primary hover:bg-primary-light text-white text-sm font-medium px-5 py-2.5 rounded-full transition-all shadow-sm hover:shadow-md active:scale-95" href="request-topic.html">
+                    Request Topic
+                </a>
+            </div>
 
-  <main class="container content">
-    <h1>Psychology Topics</h1>
-    <p class="lead">
-      Start with these three foundations. Each topic will grow into a set of clean, human-written learning resources.
-    </p>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-slate-600 dark:text-slate-300 hover:text-primary transition">
+                <span class="material-icons-outlined text-3xl">menu</span>
+            </button>
+        </nav>
+    </header>
 
-    <section class="grid">
-      <article class="topic-card">
-        <h2>1) Introduction to Psychology</h2>
-        <p>Study basic psychology concepts + terminology, important historical figures, highlighted psychological studies, and different types of subfields in psychology.</p>
-        <button><a class="btn" href="intro-psych.html">Open topic</a></button>
-      </article>
-      
-      
-      <article class="topic-card">
-        <h2>2) Basic Research Methods</h2>
-        <p>Study design, variables, reliability/validity, ethics, sampling, and how to read studies.</p>
-        <button><a class="btn" href="research-methods.html">Open topic</a></button>
-      </article>
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-[1000px] mx-auto px-6 py-12 md:py-20">
 
-      <article class="topic-card">
-        <h2>3) Biopsychology</h2>
-        <p>The nervous system, neurons, brain structures, neurotransmitters, and how biology shapes behavior.</p>
-        <button><a class="btn" href="biopsych.html">Open topic</a></button>
-      </article>
+        <!-- Page Header -->
+        <section class="mb-12 max-w-3xl">
+            <h1 class="text-4xl md:text-5xl font-serif font-semibold text-slate-900 dark:text-white mb-4 tracking-tight leading-tight">
+                Psychology Topics
+            </h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-light">
+                Explore our structured curriculum covering the fundamentals of human psychology, from biological bases to complex social interactions. Each topic offers clean, comprehensive learning resources.
+            </p>
+        </section>
 
-      <article class="topic-card">
-        <h2>4) Personality Psychology</h2>
-        <p>Trait models, psychodynamic ideas, humanistic views, social-cognitive theories, and assessment.</p>
-        <button><a class="btn" href="personality.html">Open topic</a></button>
-      </article>
-    </section>
-  </main>
+        <!-- Filter and Search Section -->
+        <section class="flex flex-col lg:flex-row gap-6 mb-10 items-start lg:items-center justify-between">
+            <!-- Search Bar -->
+            <div class="w-full lg:w-96">
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="material-icons-outlined text-slate-400 group-focus-within:text-primary transition-colors text-[20px]">search</span>
+                    </div>
+                    <input
+                        class="block w-full pl-10 pr-3 py-3 border border-slate-200 dark:border-slate-700 rounded-xl leading-5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary sm:text-sm transition-all shadow-sm"
+                        placeholder="Search theories, concepts, or authors..."
+                        type="text"
+                    />
+                </div>
+            </div>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Method-of-Mind</p>
-    </div>
-  </footer>
+            <!-- Category Filters -->
+            <div class="flex flex-wrap gap-2">
+                <button class="px-5 py-2 rounded-full bg-primary text-white text-sm font-medium shadow-md transition-transform hover:scale-105">
+                    All
+                </button>
+                <button class="px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors shadow-sm">
+                    Foundations
+                </button>
+                <button class="px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors shadow-sm">
+                    Biological
+                </button>
+                <button class="px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors shadow-sm">
+                    Theories
+                </button>
+                <button class="px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors shadow-sm">
+                    Clinical
+                </button>
+            </div>
+        </section>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+        <!-- Topics Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
+            <!-- Card 1: Intro to Psychology -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="intro-psych.html" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-secondary-lavender/50 text-indigo-900 dark:text-indigo-200 border border-indigo-100 dark:border-indigo-900 uppercase tracking-wider">
+                        Start Here
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">lightbulb</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Intro to Psychology</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    A comprehensive overview of the history, major perspectives, and foundational concepts that define the field.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+            <!-- Card 2: Research Methods -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="research-methods.html" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 border border-purple-100 dark:border-purple-900 uppercase tracking-wider">
+                        Foundations
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">science</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Research Methods</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    Experimental design, correlation, and statistical significance. Understanding how psychological science is conducted.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+            <!-- Card 3: Biopsychology -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="biopsych.html" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900 uppercase tracking-wider">
+                        Biological
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">psychology</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Biopsychology</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    The nervous system, neurons, brain structures, neurotransmitters, and how biology shapes behavior.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+            <!-- Card 4: Personality -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="personality.html" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-300 border border-pink-100 dark:border-pink-900 uppercase tracking-wider">
+                        Individual Diff
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">fingerprint</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Personality</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    Trait models, psychodynamic ideas, humanistic views, social-cognitive theories, and assessment.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+            <!-- Card 5: Cognitive Development -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="#" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-900 uppercase tracking-wider">
+                        Theories
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">school</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Cognitive Development</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    Piaget's stages, Vygotsky's theory, and information processing models of how we learn and grow.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+            <!-- Card 6: Social Psychology -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="#" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300 border border-teal-100 dark:border-teal-900 uppercase tracking-wider">
+                        Social
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">groups</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Social Psychology</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    Group dynamics, prejudice, conformity, and interpersonal attraction. How we relate to others.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+            <!-- Card 7: Sensation & Perception -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="#" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900 uppercase tracking-wider">
+                        Biological
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">visibility</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Sensation & Perception</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    How we process sensory information (sight, sound, touch) and interpret it to construct our reality.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+            <!-- Card 8: Behaviorism -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="#" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-900 uppercase tracking-wider">
+                        Theories
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">pets</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Behaviorism</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    Conditioning, reinforcement, and punishment. The study of observable behavior and learning theories.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+            <!-- Card 9: Memory & Learning -->
+            <article class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-soft-hover border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full relative">
+                <a href="#" class="absolute inset-0 z-10 rounded-2xl"></a>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900 uppercase tracking-wider">
+                        Cognitive
+                    </span>
+                    <div class="p-2 bg-blue-50 dark:bg-slate-700/50 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-icons-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors text-[20px]">memory</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Memory & Learning</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-grow mb-6">
+                    Encoding, storage, and retrieval processes. Understanding how we learn and why we forget.
+                </p>
+                <div class="flex items-center text-sm font-semibold text-primary dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                    View Topic <span class="material-icons-outlined text-lg ml-1">arrow_forward</span>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- Load More Button -->
+        <div class="mt-12 flex justify-center">
+            <button class="px-8 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-primary/50 transition-colors shadow-sm">
+                Load more topics
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-12">
+        <div class="max-w-[1000px] mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <a class="flex items-center justify-center md:justify-start gap-2 group mb-2" href="index.html">
+                        <img class="brand-logo h-5 w-5" src="logo.svg" alt="Method of Mind logo">
+                        <span class="text-lg font-bold tracking-tight text-primary dark:text-blue-100 font-serif">Method of Mind</span>
+                    </a>
+                    <p class="text-sm text-slate-500 dark:text-slate-500">
+                        Academic Psychology Resources © <span id="year"></span>
+                    </p>
+                </div>
+                <div class="flex gap-6 text-sm text-slate-500 dark:text-slate-400">
+                    <a class="hover:text-primary dark:hover:text-blue-300 transition-colors" href="#">Privacy</a>
+                    <a class="hover:text-primary dark:hover:text-blue-300 transition-colors" href="#">Terms</a>
+                    <a class="hover:text-primary dark:hover:text-blue-300 transition-colors" href="#">Contact</a>
+                    <a class="hover:text-primary dark:hover:text-blue-300 transition-colors" href="#">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
