@@ -261,12 +261,6 @@ Two-column card layout for homepage */
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.cards   ← grid container (controls columns)
- ├─ .card
- ├─ .card
- ├─ .card
- └─ .card
-
 /* Optional: stack on small screens */
 @media (max-width: 700px) {
   .cards {
@@ -296,13 +290,6 @@ footer{
   border: 0;
   margin: 22px 0;
 }
-
-
-
-
-
-
-
 
 
 
