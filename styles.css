@@ -198,20 +198,7 @@ a.card:focus{
 .cards{
   display: grid;
   gap: 16px;
-}
-
-/* 2 columns on tablets and up */
-@media (min-width: 700px){
-  .cards{
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* 3 columns on desktop */
-@media (min-width: 1000px){
-  .cards{
-    grid-template-columns: repeat(3, 1fr);
-  }
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 /* =========================
@@ -235,6 +222,7 @@ footer{
   border: 0;
   margin: 22px 0;
 }
+
 
 
 
