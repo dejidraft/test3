@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Request a Topic • Method of Mind</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">Method of Mind</a>
+    <nav class="nav">
+      <a href="topics.html">Topics</a>
+      <a href="about.html">About</a>
+      <a href="request-topic.html" class="nav-btn">Request Topic</a>
+      <a href="account.html">Account</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Request a Topic</h1>
+    <p class="lead">Suggest what you want Method of Mind to cover next.</p>
+
+    <section class="card" id="mustLoginCard" style="display:none;">
+      <h2>Log in required</h2>
+      <p class="muted">You need an account to send a request.</p>
+      <a class="btn" href="account.html">Go to Account</a>
+    </section>
+
+    <section class="card" id="formCard" style="display:none;">
+      <h2>Your request</h2>
+
+      <form id="requestForm">
+        <label>Your username</label>
+        <input id="username" class="input" type="text" placeholder="Your username" required />
+
+        <label>Your message</label>
+        <textarea id="message" class="input" rows="6" placeholder="What topic do you want added? What should it include?" required></textarea>
+
+        <label class="checkbox-row">
+          <input id="terms" type="checkbox" required />
+          <span>I agree to Method of Mind’s <a href="terms.html">Terms & Conditions</a>.</span>
+        </label>
+
+        <button class="btn" type="submit">Send request</button>
+        <p id="resultMsg" class="muted"></p>
+      </form>
+    </section>
+  </main>
+
+  <script type="module">
+    import { supabase, getUser } from "./supabase-client.js";
+
+    const mustLoginCard = document.getElementById("mustLoginCard");
+    const formCard = document.getElementById("formCard");
+    const form = document.getElementById("requestForm");
+
+    const usernameEl = document.getElementById("username");
+    const messageEl = document.getElementById("message");
+    const termsEl = document.getElementById("terms");
+    const resultMsg = document.getElementById("resultMsg");
+
+    async function load() {
+      const user = await getUser();
+      if (!user) {
+        mustLoginCard.style.display = "block";
+        formCard.style.display = "none";
+        return;
+      }
+
+      mustLoginCard.style.display = "none";
+      formCard.style.display = "block";
+
+      // Prefill username from profiles if available
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (profile?.username) usernameEl.value = profile.username;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      resultMsg.textContent = "";
+
+      const user = await getUser();
+      if (!user) {
+        resultMsg.textContent = "You must be logged in.";
+        return;
+      }
+
+      const username = usernameEl.value.trim();
+      const message = messageEl.value.trim();
+      const agreed_terms = termsEl.checked;
+
+      if (!username || !message || !agreed_terms) {
+        resultMsg.textContent = "Please fill everything out and accept Terms & Conditions.";
+        return;
+      }
+
+      const { error } = await supabase
+        .from("topic_requests")
+        .insert([{ user_id: user.id, username, message, agreed_terms }]);
+
+      if (error) {
+        resultMsg.textContent = `Error: ${error.message}`;
+      } else {
+        resultMsg.textContent = "Sent! Thank you — your request was submitted.";
+        messageEl.value = "";
+        termsEl.checked = false;
+      }
+    });
+
+    load();
+  </script>
+</body>
+</html>
