@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Account • Method of Mind</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">Method of Mind</a>
+    <nav class="nav">
+      <a href="topics.html">Topics</a>
+      <a href="about.html">About</a>
+      <a href="request-topic.html" class="nav-btn">Request Topic</a>
+      <a href="account.html">Account</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Account</h1>
+    <p class="lead">Create an account or log in to request new topics.</p>
+
+    <section class="card">
+      <h2>Status</h2>
+      <p id="statusText">Checking session…</p>
+      <button id="logoutBtn" class="btn" style="display:none;">Log out</button>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Step 1: Send verification code</h2>
+        <p class="muted">We’ll email a code to verify your address.</p>
+
+        <label>Email</label>
+        <input id="email" class="input" type="email" placeholder="you@email.com" />
+
+        <button id="sendCodeBtn" class="btn">Send verification code</button>
+        <p id="sendMsg" class="muted"></p>
+      </div>
+
+      <div class="card">
+        <h2>Step 2: Verify + set username</h2>
+        <p class="muted">Enter the code you received.</p>
+
+        <label>Verification code</label>
+        <input id="otp" class="input" type="text" placeholder="123456" />
+
+        <label>Choose a username</label>
+        <input id="username" class="input" type="text" placeholder="e.g., dejidraftfan" />
+
+        <button id="verifyBtn" class="btn">Verify & Finish</button>
+        <p id="verifyMsg" class="muted"></p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { supabase, getUser } from "./supabase-client.js";
+
+    const statusText = document.getElementById("statusText");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const emailEl = document.getElementById("email");
+    const otpEl = document.getElementById("otp");
+    const usernameEl = document.getElementById("username");
+
+    const sendCodeBtn = document.getElementById("sendCodeBtn");
+    const verifyBtn = document.getElementById("verifyBtn");
+
+    const sendMsg = document.getElementById("sendMsg");
+    const verifyMsg = document.getElementById("verifyMsg");
+
+    async function refreshStatus() {
+      const user = await getUser();
+      if (user) {
+        statusText.textContent = `Logged in as: ${user.email}`;
+        logoutBtn.style.display = "inline-block";
+      } else {
+        statusText.textContent = "Not logged in.";
+        logoutBtn.style.display = "none";
+      }
+    }
+
+    sendCodeBtn.addEventListener("click", async () => {
+      sendMsg.textContent = "";
+      verifyMsg.textContent = "";
+
+      const email = emailEl.value.trim();
+      if (!email) { sendMsg.textContent = "Enter an email."; return; }
+
+      const { error } = await supabase.auth.signInWithOtp({ email });
+      if (error) {
+        sendMsg.textContent = `Error: ${error.message}`;
+      } else {
+        sendMsg.textContent = "Code sent. Check your inbox (and spam).";
+      }
+    });
+
+    verifyBtn.addEventListener("click", async () => {
+      verifyMsg.textContent = "";
+
+      const email = emailEl.value.trim();
+      const token = otpEl.value.trim();
+      const username = usernameEl.value.trim();
+
+      if (!email || !token) { verifyMsg.textContent = "Enter email + code."; return; }
+      if (!username) { verifyMsg.textContent = "Choose a username."; return; }
+
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token,
+        type: "email"
+      });
+
+      if (error) { verifyMsg.textContent = `Error: ${error.message}`; return; }
+
+      // Save username in profiles table
+      const userId = data.user?.id;
+      if (!userId) { verifyMsg.textContent = "Verified, but no user id found."; return; }
+
+      const { error: upsertErr } = await supabase
+        .from("profiles")
+        .upsert({ id: userId, username }, { onConflict: "id" });
+
+      if (upsertErr) {
+        verifyMsg.textContent = `Verified, but username save failed: ${upsertErr.message}`;
+      } else {
+        verifyMsg.textContent = "Success! You’re logged in and your username is saved.";
+      }
+
+      await refreshStatus();
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      await refreshStatus();
+    });
+
+    refreshStatus();
+  </script>
+</body>
+</html>
